@@ -17,18 +17,16 @@ if(!"lubridate" %in% installed.packages()[,1]) {install.packages("lubridate")}
 library(lubridate)
 if(!"dplyr" %in% installed.packages()[,1]) {install.packages("dplyr")}
 library(dplyr)
+if(!"sqldf" %in% installed.packages()[,1]) {install.packages("sqldf")}
+library(sqldf)
 
 # read only the 1st column to see which lines should be extracted 
 file<-"household_power_consumption.txt"
-col1<-dmy(read.table(file, colClasses = c(rep("character", 1), rep("NULL", 8)), header = T,sep = ";")[,1])
-nb<-which(col1>="2007-02-01" & col1<="2007-02-02")
-min_row<-min(nb)
-max_row<-max(nb)
-#import only useful lines (date from 01/02/2007 to 02/02/2007)
-df<-read.csv(file,skip=min_row,nrows =max_row - min_row+1,sep=";",header = F)
-names(df)<-unlist(str_split(readLines("household_power_consumption.txt",n=1L),";"))
+df2<-read.csv.sql(file, sep=";", header=T, sql = "select * from file where Date in ('1/2/2007','2/2/2007')")
+
 #You may find it useful to convert the Date and Time variables to Date/Time classes
 
+# transform format of date
 df$Date<-dmy(df$Date)
-df<-mutate(df,weekday=weekdays(Date))
+# add POSITct format for date and time
 df<-mutate(df,date_time=ymd_hms(paste(Date,Time,sep=" ")))
