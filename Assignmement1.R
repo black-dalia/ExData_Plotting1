@@ -22,7 +22,7 @@ library(sqldf)
 
 # read only the 1st column to see which lines should be extracted 
 file<-"household_power_consumption.txt"
-df2<-read.csv.sql(file, sep=";", header=T, sql = "select * from file where Date in ('1/2/2007','2/2/2007')")
+df<-read.csv.sql(file, sep=";", header=T, sql = "select * from file where Date in ('1/2/2007','2/2/2007')")
 
 #You may find it useful to convert the Date and Time variables to Date/Time classes
 
