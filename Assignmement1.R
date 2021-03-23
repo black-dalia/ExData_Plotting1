@@ -11,7 +11,7 @@ if (ram_MB>4*1024){stop("Not enough RAM memory")}
 
 
 # check the first lines of the table 
-readLines("household_power_consumption.txt",n=1L)
+readLines("household_power_consumption.txt",n=5L)
 # check or install useful packages
 if(!"lubridate" %in% installed.packages()[,1]) {install.packages("lubridate")}
 library(lubridate)
